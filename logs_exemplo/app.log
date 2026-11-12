@@ -1,0 +1,423 @@
+2026-11-10 07:00:33,754 INFO     [api] GET /api/faturas/334053 200 em 111ms
+2026-11-10 07:01:04,089 WARNING  [api] Resposta lenta em /api/faturas: 6467ms
+2026-11-10 07:02:57,616 INFO     [api] GET /api/faturas/343962 200 em 298ms
+2026-11-10 07:03:08,890 INFO     [auth] Usuário gabriela.nunes@email.com autenticado a partir de 189.229.142.208
+2026-11-10 07:03:14,159 WARNING  [auth] Falha de login para carla.mendes@correio.net a partir de 189.216.174.72 (senha incorreta)
+2026-11-10 07:04:14,094 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 96514-2674
+2026-11-10 07:05:56,270 INFO     [api] POST /api/leituras 201 em 369ms
+2026-11-10 07:06:12,127 WARNING  [api] Resposta lenta em /api/faturas: 6392ms
+2026-11-10 07:07:53,591 INFO     [api] GET /api/faturas/759176 200 em 225ms
+2026-11-10 07:08:47,677 WARNING  [api] Resposta lenta em /api/faturas: 2375ms
+2026-11-10 07:09:50,464 WARNING  [auth] Falha de login para bruno.lima@email.com a partir de 189.51.194.72 (senha incorreta)
+2026-11-10 07:11:28,718 INFO     [api] GET /api/faturas/802729 200 em 176ms
+2026-11-10 07:11:51,546 INFO     [leituras] Lote de leituras importado: 550 registros
+2026-11-10 07:12:58,701 INFO     [api] GET /api/faturas/771088 200 em 152ms
+2026-11-10 07:14:26,511 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 030.564.139-53 (matrícula 787277)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 07:16:12,658 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 07:18:14,764 INFO     [api] GET /api/faturas/881177 200 em 174ms
+2026-11-10 07:20:08,408 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 07:21:45,505 INFO     [api] POST /api/leituras 201 em 320ms
+2026-11-10 07:22:13,065 WARNING  [auth] Falha de login para bruno.lima@email.com a partir de 189.81.216.153 (senha incorreta)
+2026-11-10 07:23:56,257 INFO     [api] POST /api/leituras 201 em 330ms
+2026-11-10 07:26:22,896 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 018.451.462-70 (matrícula 857168)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 07:27:34,987 ERROR    [pagamentos] Falha ao chamar API de pagamentos (api_key=62b472dfc98831bf96dd3b5792c49c23): HTTP 502 Bad Gateway
+2026-11-10 07:28:33,408 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 94295-6107
+2026-11-10 07:30:13,346 INFO     [auth] Usuário henrique.prado@email.com autenticado a partir de 189.126.115.17
+2026-11-10 07:30:23,602 INFO     [leituras] Lote de leituras importado: 671 registros
+2026-11-10 07:31:24,234 INFO     [api] POST /api/leituras 201 em 90ms
+2026-11-10 07:31:46,880 ERROR    [core.db] Falha ao obter conexão com o banco de dados
+Traceback (most recent call last):
+  File "/app/core/db.py", line 54, in conectar
+    conn = pool.get(timeout=30)
+  File "/app/core/pool.py", line 201, in get
+    raise TimeoutError("sem conexão disponível após 30s")
+TimeoutError: sem conexão disponível após 30s
+2026-11-10 07:33:15,219 INFO     [api] GET /api/faturas/801474 200 em 288ms
+2026-11-10 07:35:38,590 INFO     [api] POST /api/leituras 201 em 352ms
+2026-11-10 07:37:44,096 INFO     [api] GET /api/faturas/526833 200 em 137ms
+2026-11-10 07:38:13,433 INFO     [leituras] Lote de leituras importado: 925 registros
+2026-11-10 07:40:03,745 INFO     [auth] Usuário ana.souza@correio.net autenticado a partir de 189.50.31.104
+2026-11-10 07:41:34,459 WARNING  [auth] Falha de login para bruno.lima@email.com a partir de 189.98.97.138 (senha incorreta)
+2026-11-10 07:42:14,827 INFO     [auth] Usuário elisa.costa@exemplo.com.br autenticado a partir de 189.127.38.114
+2026-11-10 07:44:39,856 INFO     [api] POST /api/leituras 201 em 336ms
+2026-11-10 07:44:47,691 ERROR    [pagamentos] Falha ao chamar API de pagamentos (api_key=87c1d0a09e6109925ce9325a327c9bc3): HTTP 502 Bad Gateway
+2026-11-10 07:45:52,252 INFO     [api] POST /api/leituras 201 em 351ms
+2026-11-10 07:46:07,673 INFO     [leituras] Lote de leituras importado: 1058 registros
+2026-11-10 07:48:36,405 INFO     [auth] Usuário elisa.costa@email.com autenticado a partir de 189.160.122.68
+2026-11-10 07:49:14,468 WARNING  [api] Resposta lenta em /api/faturas: 4457ms
+2026-11-10 07:50:39,469 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 92188-1152
+2026-11-10 07:53:08,550 CRITICAL [ordens_servico] Fila de ordens de serviço parada com 375 itens pendentes
+2026-11-10 07:54:07,291 INFO     [auth] Usuário carla.mendes@exemplo.com.br autenticado a partir de 189.35.125.95
+2026-11-10 07:54:52,679 INFO     [auth] Usuário elisa.costa@correio.net autenticado a partir de 189.4.153.239
+2026-11-10 07:55:23,118 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 93200-5333
+2026-11-10 07:55:55,278 WARNING  [api] Resposta lenta em /api/faturas: 3273ms
+2026-11-10 07:57:12,208 INFO     [leituras] Lote de leituras importado: 902 registros
+2026-11-10 07:58:24,283 INFO     [auth] Usuário elisa.costa@email.com autenticado a partir de 189.47.216.213
+2026-11-10 07:58:40,268 INFO     [api] POST /api/leituras 201 em 386ms
+2026-11-10 07:59:26,722 WARNING  [api] Resposta lenta em /api/faturas: 6519ms
+2026-11-10 08:01:20,378 INFO     [auth] Usuário bruno.lima@email.com autenticado a partir de 189.76.18.214
+2026-11-10 08:03:46,920 INFO     [api] GET /api/faturas/423232 200 em 226ms
+2026-11-10 08:04:01,215 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 08:05:09,798 WARNING  [api] Resposta lenta em /api/faturas: 4897ms
+2026-11-10 08:07:37,416 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 08:08:21,242 ERROR    [core.db] Falha ao obter conexão com o banco de dados
+Traceback (most recent call last):
+  File "/app/core/db.py", line 54, in conectar
+    conn = pool.get(timeout=30)
+  File "/app/core/pool.py", line 201, in get
+    raise TimeoutError("sem conexão disponível após 30s")
+TimeoutError: sem conexão disponível após 30s
+2026-11-10 08:09:07,993 ERROR    [pagamentos] Falha ao chamar API de pagamentos (api_key=68a5f8676e6b77d71e6dadf79e40929b): HTTP 502 Bad Gateway
+2026-11-10 08:10:18,039 INFO     [api] POST /api/leituras 201 em 195ms
+2026-11-10 08:10:50,746 INFO     [leituras] Lote de leituras importado: 907 registros
+2026-11-10 08:12:15,725 INFO     [auth] Usuário bruno.lima@exemplo.com.br autenticado a partir de 189.97.130.12
+2026-11-10 08:14:11,703 INFO     [api] POST /api/leituras 201 em 335ms
+2026-11-10 08:15:06,638 INFO     [api] GET /api/faturas/796503 200 em 209ms
+2026-11-10 08:16:31,737 WARNING  [api] Resposta lenta em /api/faturas: 3020ms
+2026-11-10 08:17:52,130 INFO     [auth] Usuário gabriela.nunes@exemplo.com.br autenticado a partir de 189.206.151.142
+2026-11-10 08:18:46,630 INFO     [api] POST /api/leituras 201 em 149ms
+2026-11-10 08:21:16,293 INFO     [api] GET /api/faturas/100425 200 em 195ms
+2026-11-10 08:22:14,218 INFO     [auth] Usuário felipe.alves@exemplo.com.br autenticado a partir de 189.226.226.173
+2026-11-10 08:24:29,679 INFO     [auth] Usuário carla.mendes@correio.net autenticado a partir de 189.43.145.132
+2026-11-10 08:25:59,688 INFO     [api] POST /api/leituras 201 em 180ms
+2026-11-10 08:27:23,250 INFO     [api] GET /api/faturas/125611 200 em 63ms
+2026-11-10 08:29:29,466 INFO     [leituras] Lote de leituras importado: 349 registros
+2026-11-10 08:31:20,589 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 08:32:14,506 WARNING  [api] Resposta lenta em /api/faturas: 5145ms
+2026-11-10 08:34:01,914 INFO     [api] POST /api/leituras 201 em 62ms
+2026-11-10 08:34:33,255 WARNING  [auth] Falha de login para diego.rocha@email.com a partir de 189.237.25.143 (senha incorreta)
+2026-11-10 08:35:09,834 INFO     [auth] Usuário henrique.prado@correio.net autenticado a partir de 189.162.226.157
+2026-11-10 08:37:23,769 INFO     [auth] Usuário henrique.prado@email.com autenticado a partir de 189.243.230.67
+2026-11-10 08:38:31,914 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 487.347.143-45 (matrícula 435239)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 08:40:54,723 INFO     [api] GET /api/faturas/501641 200 em 118ms
+2026-11-10 08:41:53,425 INFO     [api] GET /api/faturas/668969 200 em 278ms
+2026-11-10 08:42:13,877 INFO     [api] GET /api/faturas/907189 200 em 50ms
+2026-11-10 08:43:55,765 INFO     [auth] Usuário felipe.alves@exemplo.com.br autenticado a partir de 189.199.214.138
+2026-11-10 08:46:19,497 WARNING  [auth] Falha de login para diego.rocha@exemplo.com.br a partir de 189.112.139.112 (senha incorreta)
+2026-11-10 08:46:31,741 INFO     [api] POST /api/leituras 201 em 267ms
+2026-11-10 08:47:18,186 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 298.069.901-62 (matrícula 584125)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 08:47:35,345 INFO     [api] GET /api/faturas/576786 200 em 207ms
+2026-11-10 08:49:17,258 INFO     [api] POST /api/leituras 201 em 275ms
+2026-11-10 08:49:42,980 INFO     [auth] Usuário ana.souza@exemplo.com.br autenticado a partir de 189.114.35.200
+2026-11-10 08:49:57,129 WARNING  [auth] Falha de login para diego.rocha@email.com a partir de 189.10.78.62 (senha incorreta)
+2026-11-10 08:52:03,970 WARNING  [api] Resposta lenta em /api/faturas: 6620ms
+2026-11-10 08:53:03,838 INFO     [auth] Usuário elisa.costa@exemplo.com.br autenticado a partir de 189.85.58.200
+2026-11-10 08:53:49,951 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 92771-1420
+2026-11-10 08:55:13,707 INFO     [auth] Usuário gabriela.nunes@exemplo.com.br autenticado a partir de 189.101.38.152
+2026-11-10 08:56:20,824 INFO     [api] POST /api/leituras 201 em 367ms
+2026-11-10 08:56:55,518 WARNING  [auth] Falha de login para ana.souza@exemplo.com.br a partir de 189.219.189.18 (senha incorreta)
+2026-11-10 08:58:27,443 INFO     [api] GET /api/faturas/614013 200 em 94ms
+2026-11-10 09:00:04,724 INFO     [leituras] Lote de leituras importado: 1141 registros
+2026-11-10 09:00:48,845 INFO     [auth] Usuário elisa.costa@correio.net autenticado a partir de 189.247.238.112
+2026-11-10 09:02:01,902 INFO     [api] GET /api/faturas/190872 200 em 182ms
+2026-11-10 09:04:01,344 INFO     [api] GET /api/faturas/739979 200 em 234ms
+2026-11-10 09:04:13,816 INFO     [auth] Usuário felipe.alves@email.com autenticado a partir de 189.249.108.91
+2026-11-10 09:05:24,569 INFO     [api] POST /api/leituras 201 em 201ms
+2026-11-10 09:05:31,568 INFO     [auth] Usuário diego.rocha@email.com autenticado a partir de 189.123.208.126
+2026-11-10 09:06:37,728 WARNING  [api] Resposta lenta em /api/faturas: 7291ms
+2026-11-10 09:08:47,708 INFO     [auth] Usuário ana.souza@email.com autenticado a partir de 189.150.113.104
+2026-11-10 09:09:54,435 INFO     [api] GET /api/faturas/596249 200 em 216ms
+2026-11-10 09:12:19,313 INFO     [api] POST /api/leituras 201 em 198ms
+2026-11-10 09:13:28,122 INFO     [api] POST /api/leituras 201 em 221ms
+2026-11-10 09:15:50,221 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 94033-4138
+2026-11-10 09:17:58,102 INFO     [api] GET /api/faturas/897135 200 em 184ms
+2026-11-10 09:18:52,725 INFO     [api] GET /api/faturas/416950 200 em 47ms
+2026-11-10 09:21:13,714 INFO     [api] GET /api/faturas/157174 200 em 189ms
+2026-11-10 09:21:50,105 INFO     [leituras] Lote de leituras importado: 1205 registros
+2026-11-10 09:21:58,988 INFO     [auth] Usuário henrique.prado@exemplo.com.br autenticado a partir de 189.225.174.48
+2026-11-10 09:22:16,841 INFO     [api] POST /api/leituras 201 em 118ms
+2026-11-10 09:22:37,155 INFO     [api] GET /api/faturas/760021 200 em 67ms
+2026-11-10 09:23:20,461 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 413.186.999-38 (matrícula 498855)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 09:25:18,582 INFO     [api] GET /api/faturas/549660 200 em 196ms
+2026-11-10 09:25:38,970 INFO     [leituras] Lote de leituras importado: 403 registros
+2026-11-10 09:26:36,676 INFO     [leituras] Lote de leituras importado: 741 registros
+2026-11-10 09:27:01,002 INFO     [api] GET /api/faturas/178711 200 em 120ms
+2026-11-10 09:28:50,723 INFO     [auth] Usuário henrique.prado@exemplo.com.br autenticado a partir de 189.16.118.74
+2026-11-10 09:30:07,072 WARNING  [api] Resposta lenta em /api/faturas: 5719ms
+2026-11-10 09:31:11,806 ERROR    [core.db] Falha ao obter conexão com o banco de dados
+Traceback (most recent call last):
+  File "/app/core/db.py", line 54, in conectar
+    conn = pool.get(timeout=30)
+  File "/app/core/pool.py", line 201, in get
+    raise TimeoutError("sem conexão disponível após 30s")
+TimeoutError: sem conexão disponível após 30s
+2026-11-10 09:32:06,145 INFO     [auth] Usuário diego.rocha@correio.net autenticado a partir de 189.76.136.212
+2026-11-10 09:32:29,766 INFO     [api] POST /api/leituras 201 em 364ms
+2026-11-10 09:34:59,449 ERROR    [core.db] Falha ao obter conexão com o banco de dados
+Traceback (most recent call last):
+  File "/app/core/db.py", line 54, in conectar
+    conn = pool.get(timeout=30)
+  File "/app/core/pool.py", line 201, in get
+    raise TimeoutError("sem conexão disponível após 30s")
+TimeoutError: sem conexão disponível após 30s
+2026-11-10 09:35:35,552 INFO     [auth] Usuário elisa.costa@correio.net autenticado a partir de 189.206.139.129
+2026-11-10 09:37:46,093 INFO     [auth] Usuário ana.souza@exemplo.com.br autenticado a partir de 189.165.128.7
+2026-11-10 09:38:49,590 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 91339-5415
+2026-11-10 09:39:04,599 WARNING  [auth] Falha de login para carla.mendes@exemplo.com.br a partir de 189.226.142.47 (senha incorreta)
+2026-11-10 09:41:00,992 INFO     [leituras] Lote de leituras importado: 1207 registros
+2026-11-10 09:41:28,164 INFO     [auth] Usuário gabriela.nunes@exemplo.com.br autenticado a partir de 189.164.53.220
+2026-11-10 09:42:57,833 INFO     [api] GET /api/faturas/794769 200 em 245ms
+2026-11-10 09:45:22,118 INFO     [api] GET /api/faturas/364659 200 em 205ms
+2026-11-10 09:47:10,844 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 09:47:15,473 INFO     [leituras] Lote de leituras importado: 1311 registros
+2026-11-10 09:49:05,640 INFO     [api] GET /api/faturas/752878 200 em 295ms
+2026-11-10 09:51:03,901 WARNING  [auth] Falha de login para diego.rocha@exemplo.com.br a partir de 189.67.147.113 (senha incorreta)
+2026-11-10 09:53:12,818 INFO     [api] POST /api/leituras 201 em 371ms
+2026-11-10 09:54:18,564 WARNING  [api] Resposta lenta em /api/faturas: 4545ms
+2026-11-10 09:54:26,120 INFO     [auth] Usuário bruno.lima@email.com autenticado a partir de 189.58.236.243
+2026-11-10 09:55:10,494 INFO     [auth] Usuário elisa.costa@correio.net autenticado a partir de 189.139.212.214
+2026-11-10 09:57:15,943 INFO     [api] GET /api/faturas/502219 200 em 137ms
+2026-11-10 09:59:30,884 WARNING  [api] Resposta lenta em /api/faturas: 3118ms
+2026-11-10 09:59:52,348 INFO     [api] POST /api/leituras 201 em 272ms
+2026-11-10 10:02:06,857 INFO     [api] GET /api/faturas/861319 200 em 192ms
+2026-11-10 10:04:16,457 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 10:06:38,329 INFO     [auth] Usuário felipe.alves@correio.net autenticado a partir de 189.193.233.239
+2026-11-10 10:07:31,546 ERROR    [pagamentos] Falha ao chamar API de pagamentos (api_key=d070f180964c9c9fb7b8ac79b6e30bf4): HTTP 502 Bad Gateway
+2026-11-10 10:09:13,036 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 98994-9864
+2026-11-10 10:09:35,232 INFO     [api] POST /api/leituras 201 em 207ms
+2026-11-10 10:10:03,710 INFO     [auth] Usuário bruno.lima@correio.net autenticado a partir de 189.51.227.43
+2026-11-10 10:11:24,047 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 10:12:52,250 WARNING  [auth] Falha de login para elisa.costa@exemplo.com.br a partir de 189.191.220.38 (senha incorreta)
+2026-11-10 10:15:12,174 INFO     [api] POST /api/leituras 201 em 152ms
+2026-11-10 10:16:01,699 INFO     [api] POST /api/leituras 201 em 377ms
+2026-11-10 10:17:07,261 INFO     [auth] Usuário carla.mendes@email.com autenticado a partir de 189.236.130.118
+2026-11-10 10:17:14,476 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 10:18:32,075 WARNING  [api] Resposta lenta em /api/faturas: 3294ms
+2026-11-10 10:20:30,706 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 95901-7951
+2026-11-10 10:21:39,242 INFO     [auth] Usuário elisa.costa@email.com autenticado a partir de 189.196.247.28
+2026-11-10 10:23:21,849 INFO     [auth] Usuário elisa.costa@correio.net autenticado a partir de 189.151.11.251
+2026-11-10 10:25:07,932 INFO     [api] GET /api/faturas/819112 200 em 65ms
+2026-11-10 10:27:19,807 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 439.533.942-10 (matrícula 423939)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 10:29:16,931 INFO     [api] GET /api/faturas/237795 200 em 86ms
+2026-11-10 10:30:36,805 INFO     [api] GET /api/faturas/310548 200 em 107ms
+2026-11-10 10:32:59,374 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 10:35:19,825 INFO     [auth] Usuário elisa.costa@email.com autenticado a partir de 189.131.246.248
+2026-11-10 10:36:39,823 WARNING  [api] Resposta lenta em /api/faturas: 4774ms
+2026-11-10 10:37:13,866 INFO     [auth] Usuário bruno.lima@email.com autenticado a partir de 189.115.203.248
+2026-11-10 10:39:40,270 INFO     [api] POST /api/leituras 201 em 67ms
+2026-11-10 10:42:02,598 INFO     [api] GET /api/faturas/885395 200 em 174ms
+2026-11-10 10:43:44,843 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 513.709.859-31 (matrícula 766269)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 10:45:47,309 ERROR    [core.db] Falha ao obter conexão com o banco de dados
+Traceback (most recent call last):
+  File "/app/core/db.py", line 54, in conectar
+    conn = pool.get(timeout=30)
+  File "/app/core/pool.py", line 201, in get
+    raise TimeoutError("sem conexão disponível após 30s")
+TimeoutError: sem conexão disponível após 30s
+2026-11-10 10:47:36,504 INFO     [api] GET /api/faturas/139019 200 em 195ms
+2026-11-10 10:48:10,397 INFO     [api] POST /api/leituras 201 em 129ms
+2026-11-10 10:50:11,429 INFO     [api] POST /api/leituras 201 em 336ms
+2026-11-10 10:50:55,670 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 10:51:25,376 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 964.053.773-51 (matrícula 818987)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 10:53:49,660 ERROR    [leituras] Registro inválido no lote do arquivo leituras_20261110.csv
+Traceback (most recent call last):
+  File "/app/leituras/importador.py", line 88, in processar_lote
+    registro = normalizar(item)
+  File "/app/leituras/importador.py", line 31, in normalizar
+    matricula = item["matricula"]
+KeyError: 'matricula'
+2026-11-10 10:55:25,093 INFO     [api] GET /api/faturas/228093 200 em 272ms
+2026-11-10 10:56:24,994 INFO     [leituras] Lote de leituras importado: 1422 registros
+2026-11-10 10:56:34,070 INFO     [api] GET /api/faturas/232040 200 em 145ms
+2026-11-10 10:59:00,792 INFO     [api] GET /api/faturas/344316 200 em 208ms
+2026-11-10 10:59:42,256 WARNING  [auth] Falha de login para ana.souza@exemplo.com.br a partir de 189.74.66.139 (senha incorreta)
+2026-11-10 11:00:31,015 INFO     [api] POST /api/leituras 201 em 127ms
+2026-11-10 11:02:07,271 WARNING  [auth] Falha de login para diego.rocha@correio.net a partir de 189.165.8.45 (senha incorreta)
+2026-11-10 11:02:25,487 INFO     [api] GET /api/faturas/219169 200 em 72ms
+2026-11-10 11:04:24,802 WARNING  [auth] Falha de login para bruno.lima@exemplo.com.br a partir de 189.113.22.187 (senha incorreta)
+2026-11-10 11:06:42,062 INFO     [api] POST /api/leituras 201 em 75ms
+2026-11-10 11:08:49,639 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 617.711.592-12 (matrícula 388375)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 11:11:14,611 WARNING  [api] Resposta lenta em /api/faturas: 5120ms
+2026-11-10 11:13:34,812 INFO     [api] GET /api/faturas/551096 200 em 90ms
+2026-11-10 11:14:08,437 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 836.736.576-61 (matrícula 427730)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 11:15:33,976 WARNING  [api] Resposta lenta em /api/faturas: 5066ms
+2026-11-10 11:16:17,068 WARNING  [api] Resposta lenta em /api/faturas: 5885ms
+2026-11-10 11:16:45,125 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 161.528.098-85 (matrícula 802559)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 11:18:35,888 INFO     [api] POST /api/leituras 201 em 276ms
+2026-11-10 11:18:53,106 ERROR    [notificacoes] Gateway de SMS retornou 503 ao notificar (85) 96119-6761
+2026-11-10 11:21:07,867 INFO     [api] POST /api/leituras 201 em 174ms
+2026-11-10 11:21:39,587 INFO     [api] GET /api/faturas/220465 200 em 182ms
+2026-11-10 11:22:41,279 WARNING  [auth] Falha de login para ana.souza@correio.net a partir de 189.136.14.47 (senha incorreta)
+2026-11-10 11:24:05,359 ERROR    [core.db] Falha ao obter conexão com o banco de dados
+Traceback (most recent call last):
+  File "/app/core/db.py", line 54, in conectar
+    conn = pool.get(timeout=30)
+  File "/app/core/pool.py", line 201, in get
+    raise TimeoutError("sem conexão disponível após 30s")
+TimeoutError: sem conexão disponível após 30s
+2026-11-10 11:24:11,071 INFO     [api] GET /api/faturas/789275 200 em 245ms
+2026-11-10 11:24:52,093 WARNING  [api] Resposta lenta em /api/faturas: 2251ms
+2026-11-10 11:27:12,378 INFO     [api] GET /api/faturas/457455 200 em 120ms
+2026-11-10 11:28:36,964 WARNING  [api] Resposta lenta em /api/faturas: 8363ms
+2026-11-10 11:31:06,159 INFO     [leituras] Lote de leituras importado: 307 registros
+2026-11-10 11:31:51,677 WARNING  [auth] Falha de login para ana.souza@correio.net a partir de 189.41.139.114 (senha incorreta)
+2026-11-10 11:33:44,524 INFO     [auth] Usuário henrique.prado@exemplo.com.br autenticado a partir de 189.139.110.194
+2026-11-10 11:34:18,539 INFO     [api] GET /api/faturas/811163 200 em 289ms
+2026-11-10 11:35:41,007 INFO     [api] GET /api/faturas/728437 200 em 68ms
+2026-11-10 11:36:38,296 INFO     [api] GET /api/faturas/243901 200 em 170ms
+2026-11-10 11:38:06,132 INFO     [api] GET /api/faturas/551574 200 em 129ms
+2026-11-10 11:39:48,882 INFO     [auth] Usuário diego.rocha@correio.net autenticado a partir de 189.181.36.102
+2026-11-10 11:40:03,414 INFO     [auth] Usuário henrique.prado@email.com autenticado a partir de 189.160.219.147
+2026-11-10 11:41:54,820 INFO     [api] GET /api/faturas/440544 200 em 127ms
+2026-11-10 11:43:56,763 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 516.136.968-16 (matrícula 425346)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 11:45:27,522 INFO     [api] POST /api/leituras 201 em 99ms
+2026-11-10 11:46:01,105 INFO     [auth] Usuário diego.rocha@exemplo.com.br autenticado a partir de 189.179.75.61
+2026-11-10 11:46:43,181 INFO     [api] GET /api/faturas/260295 200 em 78ms
+2026-11-10 11:48:54,450 INFO     [auth] Usuário henrique.prado@correio.net autenticado a partir de 189.165.161.39
+2026-11-10 11:49:16,075 INFO     [auth] Usuário elisa.costa@exemplo.com.br autenticado a partir de 189.28.180.130
+2026-11-10 11:50:40,660 INFO     [auth] Usuário ana.souza@email.com autenticado a partir de 189.188.146.20
+2026-11-10 11:51:08,393 INFO     [leituras] Lote de leituras importado: 1238 registros
+2026-11-10 11:53:11,460 INFO     [leituras] Lote de leituras importado: 284 registros
+2026-11-10 11:54:04,461 INFO     [api] GET /api/faturas/258189 200 em 71ms
+2026-11-10 11:54:35,372 ERROR    [faturamento] Erro ao calcular consumo médio do cliente CPF 518.203.778-89 (matrícula 266457)
+Traceback (most recent call last):
+  File "/app/faturamento/servico.py", line 112, in gerar_fatura
+    media = calcular_media(leituras)
+  File "/app/faturamento/consumo.py", line 47, in calcular_media
+    return total_m3 / dias_lidos
+ZeroDivisionError: division by zero
+2026-11-10 11:56:15,396 ERROR    [core.db] Falha ao obter conexão com o banco de dados
+Traceback (most recent call last):
+  File "/app/core/db.py", line 54, in conectar
+    conn = pool.get(timeout=30)
+  File "/app/core/pool.py", line 201, in get
+    raise TimeoutError("sem conexão disponível após 30s")
+TimeoutError: sem conexão disponível após 30s
