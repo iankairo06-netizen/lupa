@@ -10,9 +10,11 @@ O log em `logs_exemplo/app.log` é fictício, gerado para o estudo. Não tem nen
 logs_exemplo/app.log          423 linhas
   → leitura.py                231 eventos (cada traceback junto do seu evento)
   → agrupamento.py            8 grupos (de WARNING para cima), já mascarados por mascara.py
-  → diagnostico.py            diagnóstico por regras: funciona sem IA e é o plano B
-  → ia.py                     diagnóstico com LLM: instruções + exemplos + grupo
+  → cascata.py                para cada grupo: tenta a IA (ia.py); se falhar, usa as regras (diagnostico.py)
+  → relatorio.py              relatório em Markdown, do problema mais grave ao menos grave
 ```
+
+`main.py` junta tudo. Um exemplo de saída está em [`exemplos/relatorio_regras.md`](exemplos/relatorio_regras.md).
 
 | Arquivo | O que faz |
 |---|---|
@@ -21,6 +23,9 @@ logs_exemplo/app.log          423 linhas
 | `agrupamento.py` | Agrupa eventos pela assinatura (mensagem normalizada + erro do traceback) |
 | `diagnostico.py` | Modelo `Diagnostico` (Pydantic), contrato `Classificador` e `ClassificadorRegras` |
 | `ia.py` | `ClassificadorIA`: LangChain com exemplos no prompt (few-shot) e saída estruturada |
+| `cascata.py` | Tenta o classificador principal (IA) e, se ele falhar, usa o reserva (regras) |
+| `relatorio.py` | Gera o relatório em Markdown: resumo, tabela de problemas e detalhes |
+| `main.py` | Linha de comando: do arquivo de log ao relatório |
 
 ## Decisões
 
@@ -28,6 +33,8 @@ logs_exemplo/app.log          423 linhas
 - **Agrupar antes de diagnosticar.** A IA recebe 8 problemas resumidos, e não 423 linhas: menos custo, resposta mais rápida e menos ruído.
 - **Saída tipada.** O `Diagnostico` usa `Literal` para gravidade e categoria. Resposta fora do formato vira erro na hora, em vez de chegar quebrada ao relatório.
 - **Regras e IA com o mesmo contrato.** `ClassificadorRegras` e `ClassificadorIA` seguem o `Protocol Classificador` (`nome` e `diagnosticar(grupo)`), então um pode substituir o outro.
+- **Cascata com plano B.** Se a IA falhar num grupo (rede, chave, tempo esgotado, resposta fora do formato), aquele grupo é diagnosticado pelas regras e o erro fica registrado no log. Sem IA configurada, tudo vai pelas regras. O relatório mostra quem diagnosticou cada problema.
+- **Ordem pela gravidade do diagnóstico.** O relatório ordena pelo impacto avaliado no diagnóstico, e não pelo nível do log, que é só o que o programador escolheu ao escrever a mensagem.
 - **Provedor configurável.** O modelo vem de `LUPA_MODELO` no `.env` (formato `provedor:modelo`). Trocar de provedor não exige mudar código.
 - **Testes sem rede.** Os testes da IA usam um modelo falso que imita o LangChain: rodam sem chave, sem internet e sem custo.
 
@@ -42,7 +49,15 @@ python -m pip install -r requirements.txt
 python -m pytest
 ```
 
-Cada etapa pode ser vista sozinha:
+Gerar o relatório:
+
+```
+python main.py logs_exemplo/app.log              # usa a IA, se configurada; senão, as regras
+python main.py logs_exemplo/app.log --sem-ia     # só as regras
+python main.py --help                            # todas as opções
+```
+
+Cada etapa também pode ser vista sozinha:
 
 ```
 python leitura.py
@@ -56,14 +71,14 @@ Para usar o LLM de verdade:
 
 1. `cp .env.example .env` e preencha `LUPA_MODELO` e a chave do provedor.
 2. Descomente o pacote do provedor no `requirements.txt` e rode o `pip install` de novo.
-3. `python ia.py`
+3. `python ia.py` (só os 3 problemas mais graves) ou `python main.py logs_exemplo/app.log`
 
 ## Situação
 
 - [x] Leitura, máscara, agrupamento e diagnóstico por regras, com testes
 - [x] Diagnóstico com LLM (código e testes com modelo falso)
+- [x] Relatório em Markdown e `main.py` com a cascata IA → regras
 - [ ] Testar a chamada real ao LLM (aguardando a definição do provedor)
-- [ ] Relatório em Markdown e `main.py` com a cascata IA → regras
 
 ## Limitações conhecidas
 
