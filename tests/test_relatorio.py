@@ -1,5 +1,3 @@
-"""Testes do relatório e do main."""
-
 import re
 from collections import Counter
 from datetime import datetime
@@ -38,7 +36,7 @@ def analises_do_log_de_exemplo():
 
 
 def test_ordena_pela_gravidade_do_diagnostico():
-    # Os dois grupos têm o mesmo nível no log: quem decide é o diagnóstico.
+    # Mesmo nível no log: quem decide a ordem é o diagnóstico.
     media = Analise(criar_grupo("auth"), criar_diagnostico("media"), "regras")
     alta = Analise(criar_grupo("api"), criar_diagnostico("alta"), "ia")
 
@@ -71,8 +69,8 @@ def test_relatorio_nao_tem_dados_sensiveis():
     texto = gerar_relatorio(analises, "app.log", len(eventos), Counter())
 
     assert "@" not in texto
-    assert not re.search(r"\d{3}\.\d{3}\.\d{3}-\d{2}", texto)  # nenhum CPF
-    assert not re.search(r"\b189\.\d+\.\d+\.\d+\b", texto)  # nenhum IP do log
+    assert not re.search(r"\d{3}\.\d{3}\.\d{3}-\d{2}", texto)
+    assert not re.search(r"\b189\.\d+\.\d+\.\d+\b", texto)
 
 
 def test_main_gera_o_arquivo(tmp_path):
@@ -88,3 +86,13 @@ def test_main_avisa_se_o_arquivo_nao_existe(tmp_path):
     codigo = main([str(tmp_path / "nao_existe.log"), "--sem-ia"])
 
     assert codigo == 1
+
+
+def test_main_mostra_o_prompt_sem_gerar_relatorio(tmp_path, capsys):
+    saida = tmp_path / "relatorio.md"
+
+    codigo = main(["logs_exemplo/app.log", "--mostrar-prompt", "--saida", str(saida)])
+
+    assert codigo == 0
+    assert "===== system =====" in capsys.readouterr().out
+    assert not saida.exists()

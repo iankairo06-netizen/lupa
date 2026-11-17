@@ -1,21 +1,6 @@
-"""Diagnóstico com IA (LLM via LangChain).
+"""Diagnóstico de grupos com LLM via LangChain.
 
-O ClassificadorIA manda um grupo para um LLM e recebe de volta um
-Diagnostico validado pelo Pydantic. O prompt tem três partes:
-1. as instruções (mensagem "system");
-2. exemplos de entrada com a resposta esperada (in-context learning);
-3. o grupo a diagnosticar.
-
-O provedor e o modelo vêm da variável LUPA_MODELO, no arquivo .env, no
-formato "provedor:modelo". Trocar de provedor não exige mudar o código.
-
-Só dados já mascarados chegam aqui, porque o agrupamento mascara tudo antes.
-
-Para ver o prompt sem chamar a IA (não precisa de chave):
-    python ia.py --mostrar-prompt
-
-Para diagnosticar os 3 grupos mais graves (precisa do .env configurado):
-    python ia.py
+O modelo vem de LUPA_MODELO no .env, no formato "provedor:modelo".
 """
 
 import os
@@ -42,7 +27,6 @@ Regras:
 
 
 def formatar_grupo(grupo: Grupo) -> str:
-    """Transforma um grupo no texto que a IA recebe."""
     if grupo.primeiro == grupo.ultimo:
         periodo = f"às {grupo.primeiro:%H:%M}"
     else:
@@ -62,10 +46,6 @@ def formatar_grupo(grupo: Grupo) -> str:
 
 
 def _grupo_de_exemplo(nivel, modulo, quantidade, exemplos, trecho_traceback=()):
-    """Cria um grupo fictício para os exemplos do prompt.
-
-    O "_" no começo do nome é uma convenção: indica uso interno deste arquivo.
-    """
     primeiro = datetime(2026, 1, 1, 9, 0)
     ultimo = primeiro if quantidade == 1 else datetime(2026, 1, 1, 9, 40)
     return Grupo(
@@ -80,10 +60,8 @@ def _grupo_de_exemplo(nivel, modulo, quantidade, exemplos, trecho_traceback=()):
     )
 
 
-# Exemplos para o modelo aprender o formato e o critério (in-context learning).
-# São casos diferentes dos do log, para o modelo aprender o padrão em vez de
-# copiar respostas. Os exemplos passam pela mesma formatar_grupo que os grupos
-# reais, então têm exatamente o mesmo formato.
+# Casos diferentes dos do log, para o modelo aprender o critério em vez de
+# copiar respostas. Passam pela mesma formatar_grupo dos grupos reais.
 EXEMPLOS: list[tuple[Grupo, Diagnostico]] = [
     (
         _grupo_de_exemplo(
@@ -137,11 +115,7 @@ EXEMPLOS: list[tuple[Grupo, Diagnostico]] = [
 
 
 def montar_mensagens(grupo: Grupo) -> list[tuple[str, str]]:
-    """Monta a conversa enviada ao modelo: instruções, exemplos e o grupo.
-
-    Cada mensagem é um par (papel, texto). O LangChain aceita esse formato:
-    "system" são as instruções, "human" é a entrada e "ai" é a resposta.
-    """
+    """Instruções, exemplos (pares human/ai) e o grupo a diagnosticar."""
     mensagens = [("system", INSTRUCOES)]
     for grupo_exemplo, resposta in EXEMPLOS:
         mensagens.append(("human", formatar_grupo(grupo_exemplo)))
@@ -151,37 +125,23 @@ def montar_mensagens(grupo: Grupo) -> list[tuple[str, str]]:
 
 
 def criar_llm(modelo: str | None) -> Any:
-    """Cria o modelo do LangChain a partir de um texto "provedor:modelo"."""
     if not modelo:
         raise RuntimeError(
             "Defina LUPA_MODELO no arquivo .env, no formato provedor:modelo "
             "(veja o .env.example)."
         )
-    # O import fica aqui dentro: o LangChain só é carregado quando a IA é usada
-    # de verdade. Os testes, que usam um modelo falso, nem precisam dele.
+    # Import tardio: só carrega o LangChain quando a IA é usada de fato.
     from langchain.chat_models import init_chat_model
 
     return init_chat_model(modelo)
 
 
 class ClassificadorIA:
-    """Diagnostica um grupo perguntando a um LLM.
-
-    Cumpre o mesmo contrato do ClassificadorRegras (Protocol Classificador):
-    tem "nome" e "diagnosticar". Por isso um pode substituir o outro.
-    """
-
     nome = "ia"
 
     def __init__(self, modelo: str | None = None, llm: Any = None) -> None:
-        # llm: um modelo do LangChain já criado. Os testes passam um modelo
-        # falso aqui, para não depender de rede nem de chave.
         if llm is None:
             llm = criar_llm(modelo or os.getenv("LUPA_MODELO"))
-
-        # with_structured_output pede ao modelo uma resposta no formato do
-        # Diagnostico (o schema vai junto, com as descrições dos campos) e
-        # devolve o objeto já validado pelo Pydantic.
         self._llm = llm.with_structured_output(Diagnostico)
 
     def diagnosticar(self, grupo: Grupo) -> Diagnostico:
@@ -189,32 +149,3 @@ class ClassificadorIA:
         if not isinstance(resposta, Diagnostico):
             raise ValueError(f"O modelo não devolveu um Diagnostico: {resposta!r}")
         return resposta
-
-
-if __name__ == "__main__":
-    import sys
-    from pathlib import Path
-
-    from agrupamento import agrupar
-    from leitura import ler_eventos
-
-    grupos = agrupar(ler_eventos(Path("logs_exemplo/app.log")))
-
-    if "--mostrar-prompt" in sys.argv:
-        # Mostra exatamente o que seria enviado para o grupo mais grave.
-        for papel, texto in montar_mensagens(grupos[0]):
-            print(f"===== {papel} =====")
-            print(texto)
-            print()
-        sys.exit()
-
-    from dotenv import load_dotenv
-
-    load_dotenv()  # lê o arquivo .env e coloca as variáveis no ambiente
-
-    classificador = ClassificadorIA()
-    for grupo in grupos[:3]:  # só os 3 mais graves, para gastar pouco
-        diagnostico = classificador.diagnosticar(grupo)
-        print(f"{grupo.quantidade:>3}x  [{grupo.modulo}]  →  {diagnostico.gravidade} / {diagnostico.categoria}")
-        print(f"       causa: {diagnostico.causa_provavel}")
-        print(f"       ação:  {diagnostico.acao_sugerida}")

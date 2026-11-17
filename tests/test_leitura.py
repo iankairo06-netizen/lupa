@@ -1,16 +1,9 @@
-"""Testes da leitura do log.
-
-Rodar com:
-    python -m pytest
-"""
-
 from pathlib import Path
 
 from leitura import ler_eventos
 
 
 def test_junta_traceback_no_evento_anterior(tmp_path):
-    # tmp_path é uma pasta temporária que o pytest cria para cada teste.
     arquivo = tmp_path / "teste.log"
     arquivo.write_text(
         "2026-11-10 07:00:00,000 INFO     [api] Tudo certo\n"

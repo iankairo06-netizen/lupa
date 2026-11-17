@@ -1,8 +1,4 @@
-"""Testes do diagnóstico com IA.
-
-Nenhum teste chama a IA de verdade: usamos um modelo falso que imita o
-LangChain. Assim os testes rodam sem rede, sem chave e sem custo.
-"""
+"""Os testes usam um modelo falso: rodam sem rede, sem chave e sem custo."""
 
 from datetime import datetime
 
@@ -22,7 +18,7 @@ RESPOSTA = Diagnostico(
 
 
 class ModeloFalso:
-    """Imita um modelo do LangChain: tem with_structured_output e invoke."""
+    """Imita a interface usada do LangChain: with_structured_output e invoke."""
 
     def __init__(self, resposta):
         self.resposta = resposta
@@ -59,7 +55,7 @@ def test_devolve_o_diagnostico_do_modelo():
     diagnostico = ClassificadorIA(llm=modelo).diagnosticar(criar_grupo())
 
     assert diagnostico == RESPOSTA
-    assert modelo.formato_pedido is Diagnostico  # pediu a resposta tipada
+    assert modelo.formato_pedido is Diagnostico
 
 
 def test_prompt_tem_instrucoes_exemplos_e_o_grupo():
@@ -67,7 +63,7 @@ def test_prompt_tem_instrucoes_exemplos_e_o_grupo():
 
     papeis = [papel for papel, _ in mensagens]
     assert papeis[0] == "system"
-    assert papeis.count("human") == len(EXEMPLOS) + 1  # exemplos + o grupo
+    assert papeis.count("human") == len(EXEMPLOS) + 1
     assert papeis.count("ai") == len(EXEMPLOS)
 
     ultimo_papel, ultimo_texto = mensagens[-1]
@@ -77,7 +73,6 @@ def test_prompt_tem_instrucoes_exemplos_e_o_grupo():
 
 
 def test_so_dados_mascarados_chegam_ao_modelo():
-    # Do evento bruto até o prompt: nenhum e-mail ou CPF pode chegar à IA.
     evento = Evento(
         momento=datetime(2026, 11, 10, 8, 0),
         nivel="ERROR",
@@ -96,7 +91,7 @@ def test_so_dados_mascarados_chegam_ao_modelo():
 
 
 def test_erro_do_modelo_nao_e_escondido():
-    # Quem decide o plano B é a cascata (Parte 6), não o classificador.
+    # O plano B é responsabilidade da cascata, não do classificador.
     modelo = ModeloFalso(TimeoutError("a API demorou demais"))
 
     with pytest.raises(TimeoutError):
@@ -111,7 +106,6 @@ def test_resposta_fora_do_formato_vira_erro():
 
 
 def test_sem_modelo_configurado_da_erro_claro(monkeypatch):
-    # monkeypatch altera o ambiente só durante este teste.
     monkeypatch.delenv("LUPA_MODELO", raising=False)
 
     with pytest.raises(RuntimeError, match="LUPA_MODELO"):

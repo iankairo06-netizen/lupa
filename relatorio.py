@@ -1,10 +1,7 @@
-"""Relatório em Markdown.
+"""Relatório em Markdown a partir das análises.
 
-Recebe as análises (grupo + diagnóstico + origem) e monta um relatório com
-o resumo, uma tabela dos problemas e os detalhes de cada um. Os problemas
-são ordenados pela gravidade do diagnóstico, e não pelo nível do log: o
-nível é o que o programador escolheu ao escrever o log, o diagnóstico é a
-avaliação do impacto.
+Os problemas são ordenados pela gravidade do diagnóstico, e não pelo nível
+do log: o nível é escolha de quem escreveu a mensagem, não medida de impacto.
 """
 
 from collections import Counter
@@ -37,7 +34,6 @@ ROTULO_DADO = {
 
 
 def ordenar(analises: list[Analise]) -> list[Analise]:
-    """Do mais grave ao menos grave; na mesma gravidade, o mais frequente primeiro."""
     return sorted(
         analises,
         key=lambda analise: (
@@ -62,14 +58,11 @@ def gerar_relatorio(
     mascarados: Counter[str],
     gerado_em: datetime | None = None,
 ) -> str:
-    """Monta o relatório inteiro e devolve como texto Markdown."""
     gerado_em = gerado_em or datetime.now()
     analises = ordenar(analises)
     origens = Counter(analise.origem for analise in analises)
     total_agrupado = sum(analise.grupo.quantidade for analise in analises)
 
-    # Vamos montando uma lista de linhas e juntamos tudo no final.
-    # É mais simples e mais rápido do que ir somando strings.
     linhas: list[str] = [
         "# Relatório da Lupa",
         "",

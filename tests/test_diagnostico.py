@@ -1,5 +1,3 @@
-"""Testes do diagnóstico por regras."""
-
 from datetime import datetime
 from pathlib import Path
 
@@ -12,7 +10,6 @@ from leitura import ler_eventos
 
 
 def criar_grupo(nivel="ERROR", exemplos=None, trecho_traceback=None, modulo="api"):
-    """Cria um Grupo de teste sem precisar de um arquivo de log."""
     exemplos = exemplos or ["Mensagem de teste"]
     return Grupo(
         assinatura=f"{nivel} [{modulo}] {exemplos[0]}",
@@ -42,7 +39,7 @@ def test_reconhece_falha_no_banco():
 
 
 def test_numero_parecido_com_codigo_de_erro_nao_confunde():
-    # 5034ms contém "503", mas é uma resposta lenta, não um erro 503.
+    # "5034ms" contém "503", mas é resposta lenta, não erro 503.
     grupo = criar_grupo(nivel="WARNING", exemplos=["Resposta lenta em /api/faturas: 5034ms"])
 
     assert ClassificadorRegras().diagnosticar(grupo).categoria == "desempenho"

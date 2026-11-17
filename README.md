@@ -52,26 +52,17 @@ python -m pytest
 Gerar o relatório:
 
 ```
-python main.py logs_exemplo/app.log              # usa a IA, se configurada; senão, as regras
-python main.py logs_exemplo/app.log --sem-ia     # só as regras
-python main.py --help                            # todas as opções
-```
-
-Cada etapa também pode ser vista sozinha:
-
-```
-python leitura.py
-python mascara.py
-python agrupamento.py
-python diagnostico.py
-python ia.py --mostrar-prompt    # mostra o prompt enviado ao LLM, sem chamar a API
+python main.py logs_exemplo/app.log                    # usa a IA, se configurada; senão, as regras
+python main.py logs_exemplo/app.log --sem-ia           # só as regras
+python main.py logs_exemplo/app.log --mostrar-prompt   # mostra o prompt enviado ao LLM, sem chamar a API
+python main.py --help                                  # todas as opções
 ```
 
 Para usar o LLM de verdade:
 
 1. `cp .env.example .env` e preencha `LUPA_MODELO` e a chave do provedor.
 2. Descomente o pacote do provedor no `requirements.txt` e rode o `pip install` de novo.
-3. `python ia.py` (só os 3 problemas mais graves) ou `python main.py logs_exemplo/app.log`
+3. `python main.py logs_exemplo/app.log`
 
 ## Situação
 

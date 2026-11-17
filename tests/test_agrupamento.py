@@ -1,5 +1,3 @@
-"""Testes do agrupamento de eventos."""
-
 from datetime import datetime
 from pathlib import Path
 
@@ -8,7 +6,6 @@ from leitura import Evento, ler_eventos
 
 
 def criar_evento(nivel, mensagem, detalhes=None, minuto=0, modulo="api"):
-    """Cria um Evento de teste sem precisar de um arquivo de log."""
     return Evento(
         momento=datetime(2026, 11, 10, 8, minuto),
         nivel=nivel,

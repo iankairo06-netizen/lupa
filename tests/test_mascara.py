@@ -1,11 +1,8 @@
-"""Testes da máscara de dados sensíveis."""
-
 import pytest
 
 from mascara import mascarar, mascarar_com_contagem
 
 
-# parametrize roda o mesmo teste uma vez para cada par (original, esperado).
 @pytest.mark.parametrize(
     ("original", "esperado"),
     [

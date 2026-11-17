@@ -1,7 +1,7 @@
 # Relatório da Lupa
 
 - **Arquivo:** `logs_exemplo/app.log`
-- **Gerado em:** 16/11/2026 09:03
+- **Gerado em:** 16/11/2026 09:26
 - **Eventos lidos:** 231
 - **Eventos analisados:** 84, agrupados em 8 problemas
 - **Diagnóstico por:** regras (8)

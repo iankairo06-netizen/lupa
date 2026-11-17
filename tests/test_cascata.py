@@ -1,5 +1,3 @@
-"""Testes da cascata IA → regras."""
-
 import logging
 from datetime import datetime
 
@@ -16,8 +14,6 @@ DIAGNOSTICO_REGRAS = Diagnostico(
 
 
 class ClassificadorFalso:
-    """Segue o contrato Classificador: tem nome e diagnosticar."""
-
     def __init__(self, nome, resposta, falhar_no_modulo=None):
         self.nome = nome
         self.resposta = resposta
@@ -54,7 +50,6 @@ def test_usa_a_ia_quando_ela_funciona():
 
 
 def test_usa_as_regras_quando_a_ia_falha(caplog):
-    # caplog captura o que foi registrado com logging durante o teste.
     ia = ClassificadorFalso("ia", DIAGNOSTICO_IA, falhar_no_modulo="todos")
 
     with caplog.at_level(logging.WARNING):
@@ -62,7 +57,7 @@ def test_usa_as_regras_quando_a_ia_falha(caplog):
 
     assert analises[0].origem == "regras"
     assert analises[0].diagnostico == DIAGNOSTICO_REGRAS
-    assert "a API demorou demais" in caplog.text  # o erro não foi escondido
+    assert "a API demorou demais" in caplog.text
 
 
 def test_sem_ia_usa_so_as_regras():
