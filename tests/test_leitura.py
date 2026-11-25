@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from leitura import ler_eventos
+from leitura import ler_eventos, ler_linhas
 
 
 def test_junta_traceback_no_evento_anterior(tmp_path):
@@ -45,3 +45,15 @@ def test_log_de_exemplo():
     assert len(eventos) == 231
     linhas_lidas = sum(1 + len(evento.detalhes) for evento in eventos)
     assert linhas_lidas == 423  # nenhuma linha se perdeu
+
+
+def test_le_eventos_de_texto():
+    texto = (
+        "2026-11-10 07:00:01,000 ERROR    [faturamento] Falha no cálculo\n"
+        "ZeroDivisionError: division by zero\n"
+    )
+
+    eventos = ler_linhas(texto.splitlines())
+
+    assert len(eventos) == 1
+    assert eventos[0].fim_traceback == "ZeroDivisionError: division by zero"

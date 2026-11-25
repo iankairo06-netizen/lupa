@@ -1,4 +1,4 @@
-"""Lupa: do arquivo de log ao relatório com diagnóstico.
+"""Lupa pela linha de comando: do arquivo de log ao relatório.
 
     python main.py logs_exemplo/app.log
     python main.py logs_exemplo/app.log --sem-ia
@@ -7,14 +7,11 @@
 
 import argparse
 import logging
-from collections import Counter
 from pathlib import Path
 
-from agrupamento import NIVEIS, agrupar
-from cascata import diagnosticar_em_cascata
-from diagnostico import ClassificadorRegras
-from leitura import Evento, ler_eventos
-from mascara import mascarar_com_contagem
+from agrupamento import NIVEIS, Grupo, agrupar
+from leitura import ler_eventos
+from pipeline import analisar
 from relatorio import gerar_relatorio
 
 logger = logging.getLogger("lupa")
@@ -50,29 +47,7 @@ def ler_argumentos(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def criar_classificador_ia():
-    try:
-        from dotenv import load_dotenv
-
-        from ia import ClassificadorIA
-
-        load_dotenv()
-        return ClassificadorIA()
-    except Exception as erro:
-        logger.warning("IA indisponível, usando só as regras. Motivo: %s", erro)
-        return None
-
-
-def contar_mascarados(eventos: list[Evento]) -> Counter[str]:
-    total: Counter[str] = Counter()
-    for evento in eventos:
-        for texto in [evento.mensagem, *evento.detalhes]:
-            _, contagem = mascarar_com_contagem(texto)
-            total += contagem
-    return total
-
-
-def mostrar_prompt(grupo) -> None:
+def mostrar_prompt(grupo: Grupo) -> None:
     from ia import montar_mensagens
 
     for papel, texto in montar_mensagens(grupo):
@@ -90,22 +65,25 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     eventos = ler_eventos(argumentos.arquivo)
-    grupos = agrupar(eventos, nivel_minimo=argumentos.nivel)
-    logger.info("%d eventos lidos, %d problemas encontrados", len(eventos), len(grupos))
 
     if argumentos.mostrar_prompt:
+        grupos = agrupar(eventos, nivel_minimo=argumentos.nivel)
         if grupos:
             mostrar_prompt(grupos[0])
         return 0
 
-    principal = None if argumentos.sem_ia else criar_classificador_ia()
-    analises = diagnosticar_em_cascata(grupos, principal, reserva=ClassificadorRegras())
+    resultado = analisar(eventos, argumentos.nivel, usar_ia=not argumentos.sem_ia)
+    logger.info(
+        "%d eventos lidos, %d problemas encontrados",
+        resultado.eventos_lidos,
+        len(resultado.analises),
+    )
 
     texto = gerar_relatorio(
-        analises,
+        resultado.analises,
         arquivo_log=str(argumentos.arquivo),
-        total_eventos=len(eventos),
-        mascarados=contar_mascarados(eventos),
+        total_eventos=resultado.eventos_lidos,
+        mascarados=resultado.mascarados,
     )
     argumentos.saida.write_text(texto, encoding="utf-8")
     logger.info("Relatório salvo em %s", argumentos.saida)

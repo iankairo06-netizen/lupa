@@ -1,9 +1,6 @@
+fastapi[standard]>=0.115
 langchain>=1.0
+langchain-openai>=1.0
 pydantic==2.13.5
 pytest==9.1.1
 python-dotenv>=1.0
-
-# Pacote do provedor de LLM: descomente o que o time usar.
-# langchain-openai
-# langchain-google-genai
-# langchain-anthropic

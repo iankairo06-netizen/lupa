@@ -18,8 +18,10 @@ class ClassificadorFalso:
         self.nome = nome
         self.resposta = resposta
         self.falhar_no_modulo = falhar_no_modulo
+        self.chamadas = 0
 
     def diagnosticar(self, grupo):
+        self.chamadas += 1
         if self.falhar_no_modulo in (grupo.modulo, "todos"):
             raise TimeoutError("a API demorou demais")
         return self.resposta
@@ -73,3 +75,15 @@ def test_falha_num_grupo_nao_afeta_os_outros():
     analises = diagnosticar_em_cascata(grupos, ia, REGRAS)
 
     assert [analise.origem for analise in analises] == ["ia", "regras", "ia"]
+
+
+def test_para_de_chamar_a_ia_depois_de_falhas_seguidas(caplog):
+    ia = ClassificadorFalso("ia", DIAGNOSTICO_IA, falhar_no_modulo="todos")
+    grupos = [criar_grupo(f"modulo{numero}") for numero in range(5)]
+
+    with caplog.at_level(logging.WARNING):
+        analises = diagnosticar_em_cascata(grupos, ia, REGRAS, max_falhas_seguidas=2)
+
+    assert ia.chamadas == 2
+    assert [analise.origem for analise in analises] == ["regras"] * 5
+    assert "falhou 2 vezes seguidas" in caplog.text

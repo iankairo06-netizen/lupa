@@ -1,6 +1,7 @@
 """Diagnóstico de grupos com LLM via LangChain.
 
-O modelo vem de LUPA_MODELO no .env, no formato "provedor:modelo".
+O modelo vem do .env: LUPA_MODELO ("provedor:modelo") e, para um servidor
+próprio como o vLLM, LUPA_BASE_URL.
 """
 
 import os
@@ -124,16 +125,38 @@ def montar_mensagens(grupo: Grupo) -> list[tuple[str, str]]:
     return mensagens
 
 
-def criar_llm(modelo: str | None) -> Any:
+def configuracao_llm(modelo: str | None = None) -> dict[str, Any]:
+    """Parâmetros do modelo, lidos do ambiente (.env)."""
+    modelo = modelo or os.getenv("LUPA_MODELO")
     if not modelo:
         raise RuntimeError(
             "Defina LUPA_MODELO no arquivo .env, no formato provedor:modelo "
             "(veja o .env.example)."
         )
+
+    configuracao: dict[str, Any] = {
+        "model": modelo,
+        "temperature": 0,  # classificação: mesma entrada, mesma resposta
+        "timeout": 60,
+        "max_retries": 1,
+    }
+
+    # Servidor próprio compatível com a API da OpenAI, como o vLLM.
+    base_url = os.getenv("LUPA_BASE_URL")
+    if base_url:
+        configuracao["base_url"] = base_url
+        # O cliente da OpenAI exige uma chave; o vLLM sem --api-key aceita qualquer uma.
+        configuracao["api_key"] = os.getenv("LUPA_API_KEY") or "EMPTY"
+
+    return configuracao
+
+
+def criar_llm(modelo: str | None = None) -> Any:
+    configuracao = configuracao_llm(modelo)
     # Import tardio: só carrega o LangChain quando a IA é usada de fato.
     from langchain.chat_models import init_chat_model
 
-    return init_chat_model(modelo)
+    return init_chat_model(**configuracao)
 
 
 class ClassificadorIA:
@@ -141,8 +164,10 @@ class ClassificadorIA:
 
     def __init__(self, modelo: str | None = None, llm: Any = None) -> None:
         if llm is None:
-            llm = criar_llm(modelo or os.getenv("LUPA_MODELO"))
-        self._llm = llm.with_structured_output(Diagnostico)
+            llm = criar_llm(modelo)
+        # json_schema: o servidor restringe a geração ao formato do Diagnostico
+        # (no vLLM, via structured outputs), em vez de só pedir isso no prompt.
+        self._llm = llm.with_structured_output(Diagnostico, method="json_schema")
 
     def diagnosticar(self, grupo: Grupo) -> Diagnostico:
         resposta = self._llm.invoke(montar_mensagens(grupo))

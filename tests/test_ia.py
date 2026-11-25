@@ -6,7 +6,7 @@ import pytest
 
 from agrupamento import Grupo, agrupar
 from diagnostico import Diagnostico
-from ia import EXEMPLOS, ClassificadorIA, montar_mensagens
+from ia import EXEMPLOS, ClassificadorIA, configuracao_llm, montar_mensagens
 from leitura import Evento
 
 RESPOSTA = Diagnostico(
@@ -23,10 +23,12 @@ class ModeloFalso:
     def __init__(self, resposta):
         self.resposta = resposta
         self.formato_pedido = None
+        self.opcoes_pedidas = None
         self.mensagens_recebidas = None
 
-    def with_structured_output(self, formato):
+    def with_structured_output(self, formato, **opcoes):
         self.formato_pedido = formato
+        self.opcoes_pedidas = opcoes
         return self
 
     def invoke(self, mensagens):
@@ -56,6 +58,7 @@ def test_devolve_o_diagnostico_do_modelo():
 
     assert diagnostico == RESPOSTA
     assert modelo.formato_pedido is Diagnostico
+    assert modelo.opcoes_pedidas == {"method": "json_schema"}
 
 
 def test_prompt_tem_instrucoes_exemplos_e_o_grupo():
@@ -110,3 +113,26 @@ def test_sem_modelo_configurado_da_erro_claro(monkeypatch):
 
     with pytest.raises(RuntimeError, match="LUPA_MODELO"):
         ClassificadorIA()
+
+
+def test_configuracao_para_o_vllm(monkeypatch):
+    monkeypatch.setenv("LUPA_MODELO", "openai:Qwen/Qwen2.5-7B-Instruct")
+    monkeypatch.setenv("LUPA_BASE_URL", "http://workstation:8000/v1")
+    monkeypatch.delenv("LUPA_API_KEY", raising=False)
+
+    configuracao = configuracao_llm()
+
+    assert configuracao["model"] == "openai:Qwen/Qwen2.5-7B-Instruct"
+    assert configuracao["base_url"] == "http://workstation:8000/v1"
+    assert configuracao["api_key"] == "EMPTY"
+    assert configuracao["temperature"] == 0
+
+
+def test_configuracao_sem_servidor_proprio(monkeypatch):
+    monkeypatch.setenv("LUPA_MODELO", "openai:nome-do-modelo")
+    monkeypatch.delenv("LUPA_BASE_URL", raising=False)
+
+    configuracao = configuracao_llm()
+
+    assert "base_url" not in configuracao
+    assert "api_key" not in configuracao
